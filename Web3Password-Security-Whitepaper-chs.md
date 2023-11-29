@@ -65,6 +65,7 @@
 > https://youtu.be/S9JGmA5_unY
 
 > https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+
 > https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 
 
