@@ -12,7 +12,7 @@
 
 > Web3Password innovatively introduces BIP39/BIP44 Mnemonic Phrase of Bitcoin into the Web3Password account system, and uses it to develop a passkey account system based on ECDSA. So Web3Password provides an account system endorsed by Bitcoin, which makes Web3Password's account system as secure as Bitcoin. The Mnemonic Phrase is only controlled by you, and only stored on your own device. Not even Web3Password can access it.
 
-![](image/Web3Password-Client-20231115.png)
+![](image/Web3Password-Client-20231130.jpg)
 
 > Web3Password has completely abandoned insecure authentication such as Email, Username, SMS, OTP or 2-Factor. Insecure key derivation from Master Password also has been completely abandoned, and completely solved the account security issues caused by brute-force or engineering.
 
@@ -36,8 +36,8 @@
 
 > From security incidents in history that many widely used infrastructures may have some security vulnerabilities that have been deliberately implanted. Therefore, many security experts and cryptographers are skeptical about the security of encryption algorithms. They also suspect that some governments and institutions will get involved in the design of algorithms and infrastructures, and then deliberately design some flaws or implants in the implementation of some algorithms or infrastructures. Based on these experience and lessons, and benefiting from Mnemonic Phrase, in order to make Web3Password achieve future-proof security, Web3Password believes that it is necessary to use different keys and different encryption algorithms to encrypt your data. To prevent possible algorithm security issues and ensure that Web3Password always has future-proof security. After evaluation by Web3Password engineering team, we have currently selected AES-256-GCM and Chacha20-Poly1305, two encryption algorithms that support 256-bit keys, which are widely recommended by the cryptography community for cross-encryption of your data. At the same time, relying on Web3Password's powerful engineering capabilities, we have reserved good scalability to ensure that Web3Password can introduce new security algorithms to encrypt your data when needed.
 
-![](image/Web3Password-Client-20231115.png)
-![](image/Web3Password-Full-20231115.png)
+![](image/Web3Password-Client-20231130.jpg)
+![](image/Web3Password-Full-20231130.jpg)
 
 - Communication and storage security
 
@@ -47,7 +47,7 @@
 
 > In share center of Web3Password, you can create your own shared folder ("Share Folder") and invite any families, friends or collaborators to join your Share Folder, so that you can share your confidential data with them easily. The basic principle is that when each Share Folder is created, the device of the Share Folder creator("Owner") will generate a new Mnemonic Phrase("Share Folder Mnemonic"), and then uses the Owner's key to encrypt Share Folder Mnemonic and stores it in the server. When the Owner imports records to Share Folder, the records will be encrypted using multiple keys derived by Share Folder Mnemonic(Symmetric Encryption), and then stored in the server as mapping records. When the Owner add a new Member, the Share Folder Mnemonic will be encrypted by the Member's multiple public keys parsed from the Member Auth provided by the Member, and the ciphertext of Share Folder Mnemonic will be stored in the server, so that the server will establish a mapping relationship between Member and ciphertext of Share Folder Mnemonic. In this way, when the Member accesses the Share Folder, it can obtain the mapping relationship from the Share Folder, thus obtaining ciphertext of the Share Folder Mnemonic. Then the Member's private key can be used to decrypt the ciphertext of Share Folder Mnemonic on the devices, so that Member can easily get the plaintext of Share Folder Mnemonic on their devices, so the Member can easily decrypt the ciphertext of share record on their devices. Owner can revoke Member's access at any time.
 
-![](image/Web3Password-Secure-Share-20231115.png)
+![](image/Web3Password-Secure-Share-20231130.jpg)
 
 ## Transparent Protocol Principle of Web3Password
 
