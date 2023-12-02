@@ -2,31 +2,31 @@
 
 ## Origin
 
-> In 2022, a password manager company was hacked, then many accounts are brute-foced, huge losses occurred. So key derivation from master password is not enough, there still have a huge security issue even if use PBKDF2 or Argon2. Because of this incident, Web3Password designed a Zero Trust Architecture("ZTA") that can be applied to password manager. Based on this ZTA, we have brought a revolutionary password manager - Web3Password.
+> In 2022, a password manager company was hacked, resulting in many accounts being brute-forced and significant losses occurring. Therefore, key derivation from master password is insufficient. Even with PBKDF2 or Argon2, they still have huge security issues. Consequently, Web3Password has designed a Zero Trust Architecture("ZTA") that can be applied to password manager. Based on this ZTA, we have brought a revolutionary password manager - Web3Password.
 
-> Currently, about $700 billion worth of cryptocurrency is secured by BIP39/BIP44 Mnemonic Phrase of Bitcoin. Mnemonic Phrase has been fully proven to be strong, safe and effective. Therefore, we have good reasons to believe that Web3Password, based on Mnemonic Phrase, could secure your data, could solve your security concerns and policy concerns about password manager.
+> Currently, approximately $700 billion worth of cryptocurrency is secured by BIP39/BIP44 Mnemonic Phrase of Bitcoin. Mnemonic Phrase has been well proven to be strong, safe and effective. Hence, we have good reasons to believe that Web3Password, based on Mnemonic Phrase, could secure your data effectively. It  also could solve your security and policy concerns all about password managers.
 
 ## Account Security Principle of Web3Password
 
 - Brand-new Passkey Account
 
-> Web3Password innovatively introduces BIP39/BIP44 Mnemonic Phrase of Bitcoin into the Web3Password account system, and uses it to develop a passkey account system based on ECDSA. So Web3Password provides an account system endorsed by Bitcoin, which makes Web3Password's account system as secure as Bitcoin. The Mnemonic Phrase is only controlled by you, and only stored on your own device. Not even Web3Password can access it.
+> Web3Password innovatively introduces BIP39/BIP44 Mnemonic Phrase of Bitcoin into the Web3Password account system and utilizes it to develop a passkey account system based on ECDSA. So Web3Password provides an account system endorsed by Bitcoin, which makes Web3Password's account system as secure as Bitcoin. The Mnemonic Phrase is only controlled by you, and only stored on your own device. Not even Web3Password can access it.
 
 ![](image/Web3Password-Client-20231130.jpg)
 
-> Web3Password has completely abandoned insecure authentication such as Email, Username, SMS, OTP or 2-Factor. Insecure key derivation from Master Password also has been completely abandoned, and completely solved the account security issues caused by brute-force or engineering.
+> Web3Password has entirely abandoned insecure authentication such as Email, Username, Password, SMS, OTP or 2-Factor. Additionally, Insecure key derivation from Master Password has been completely abandoned, and effectively resolving account security issues caused by brute-force or engineering.
 
 
 - Remove association between account and data security
 
-> Based on our experience of security, Web3Password adopts an architecture that does not trust the server at all. It separates the account system and encryption keys, so there will no any associations between them in Web3Password. Therefore, even if all servers of Web3Password or all the equipments of Web3Password are completely controlled by hackers, there will no any security issues with your data.
+> Based on our security experience, Web3Password adopts an architecture that does not trust the server at all. It separates the account system and encryption keys, so there will no any associations between them in Web3Password. Therefore, even if Web3Password servers or equipment are completely under the control of hackers, there will be no security issues with your data.
 
 
 ## Data Security Principle of Web3Password
 
 - Completely abandon Master Password
 
-> In recent years, with the advancement of AI and the growth of GPU/ASIC computing power, the rounds of iterations for key derivation (PBKDF2/Argon2) have increased from 100,000 a few years ago to 600,000 or even 1 million, but we believe that the slow hash of key derivation from Master Password, simply by increasing the rounds of KDF (Key Derivation Function) or changing the KDF algorithm can not fundamentally guarantee the security of your data, because most Master Password are too weak, and based on the experience of many security incidents in history, Web3Password believes that in password manager, a core product, if it cannot provide future-proof security, it should be questioned. Based on this concept, in Web3Password, we have completely abandoned PBKDF2/Argon2 to derive keys from Master Password.
+> In recent years, due to the AI advancements and the growth of GPU/ASIC computing power, the rounds of iterations for key derivation (PBKDF2/Argon2) have surged from 100,000 a few years ago to 600,000 or even 1 million. However, we believe that the slow hash of key derivation from Master Password, simply by increasing the rounds of KDF (Key Derivation Function) or changing the KDF algorithm can not fundamentally guarantee the security of your data. This is because most Master Password are too weak. Based on historical security incidents , we think that a password manager, as a core product, must offer future-proof security. Consequently, in Web3Password, we have completely abandoned PBKDF2/Argon2 for deriving keys from Master Password.
 
 - Uses BIP39/BIP44 to encrypt data
 
@@ -34,32 +34,44 @@
 
 - Cross-encryption to avoid vulnerability
 
-> From security incidents in history that many widely used infrastructures may have some security vulnerabilities that have been deliberately implanted. Therefore, many security experts and cryptographers are skeptical about the security of encryption algorithms. They also suspect that some governments and institutions will get involved in the design of algorithms and infrastructures, and then deliberately design some flaws or implants in the implementation of some algorithms or infrastructures. Based on these experience and lessons, and benefiting from Mnemonic Phrase, in order to make Web3Password achieve future-proof security, Web3Password believes that it is necessary to use different keys and different encryption algorithms to encrypt your data. To prevent possible algorithm security issues and ensure that Web3Password always has future-proof security. After evaluation by Web3Password engineering team, we have currently selected AES-256-GCM and Chacha20-Poly1305, two encryption algorithms that support 256-bit keys, which are widely recommended by the cryptography community for cross-encryption of your data. At the same time, relying on Web3Password's powerful engineering capabilities, we have reserved good scalability to ensure that Web3Password can introduce new security algorithms to encrypt your data when needed.
+> From security incidents in history that many widely used infrastructures may have some security vulnerabilities that have been deliberately implanted. Therefore, many security experts and cryptographers are skeptical about the security of encryption algorithms. They also suspect that some governments and institutions will get involved in the design of algorithms and infrastructures, and then deliberately design some flaws or implants in algorithms or infrastructures. 
+
+> Based on these experience and lessons, and leveraging the Mnemonic Phrase, to ensure that Web3Password has good future-proof security, Web3Password believes that it's necessary to use different keys and different encryption algorithms to encrypt your data("cross-encrypt"). 
+
+> After evaluation by Web3Password engineering team, we have selected AES-256-GCM and Chacha20-Poly1305, two encryption algorithms that support 256-bit keys,  to cross-encrypt your data. Additionally,  relying on Web3Password's powerful engineering capabilities, we have reserved good scalability to ensure that Web3Password can introduce new security algorithms to encrypt your data when necessary.
 
 ![](image/Web3Password-Client-20231130.jpg)
 ![](image/Web3Password-Full-20231130.jpg)
 
 - Communication and storage security
 
-> Web3Password only processes your plaintext data on your device. Before all data leaves your device, Web3Password use cross-encryption to ensure your data security, and use the ECDSA to sign your data to ensure data integrity. Because of the unpredictability of BIP39/BIP44 keys, Web3Password can do our best to ensure that security of your data will not be affected even if it is transmitted over an insecure network. We can also ensure that security of your data will not be affected even if it is stored in insecure servers. Based on this security principle, we will store your data(some users) in the blockchain by default to protect your ownership of data.
+> Web3Password only processes your plaintext data on your device. Before all data leaves your device, Web3Password use cross-encryption to secure your data, and use the ECDSA to sign your data to ensure data integrity. Because of the unpredictability of BIP39/BIP44 keys, Web3Password can do our best to secure your data will not be affected even if it is transmitted over an insecure network. We can also ensure that your data will not be affected even if it is stored on insecure servers. 
+
+> Based on Web3Password powerful encryption, end-to-end encrypted (E2EE) transmission with man-in-the-middle attack has been abandoned by Web3Password.
+
 
 ## Secure Share Principle of Web3Password
 
-> In share center of Web3Password, you can create your own shared folder ("Share Folder") and invite any families, friends or collaborators to join your Share Folder, so that you can share your confidential data with them easily. The basic principle is that when each Share Folder is created, the device of the Share Folder creator("Owner") will generate a new Mnemonic Phrase("Share Folder Mnemonic"), and then uses the Owner's key to encrypt Share Folder Mnemonic and stores it in the server. When the Owner imports records to Share Folder, the records will be encrypted using multiple keys derived by Share Folder Mnemonic(Symmetric Encryption), and then stored in the server as mapping records. When the Owner add a new Member, the Share Folder Mnemonic will be encrypted by the Member's multiple public keys parsed from the Member Auth provided by the Member, and the ciphertext of Share Folder Mnemonic will be stored in the server, so that the server will establish a mapping relationship between Member and ciphertext of Share Folder Mnemonic. In this way, when the Member accesses the Share Folder, it can obtain the mapping relationship from the Share Folder, thus obtaining ciphertext of the Share Folder Mnemonic. Then the Member's private key can be used to decrypt the ciphertext of Share Folder Mnemonic on the devices, so that Member can easily get the plaintext of Share Folder Mnemonic on their devices, so the Member can easily decrypt the ciphertext of share record on their devices. Owner can revoke Member's access at any time.
+> In the Share Center of Web3Password, you can create share folder("Share Folder") ,  and invite family members, friends, or collaborators to join these folders, sharing your confidential data easily. 
+
+> The fundamental principle is that upon creating each Share Folder, the device of the Share Folder creator("Owner") will generate a new Mnemonic Phrase("Share Folder Mnemonic"). Subsequently, it utilizes the Owner's key to encrypt Share Folder Mnemonic, storing the ciphertext on the server. When the Owner imports records into Share Folder, these records will be encrypted using multiple keys derived by Share Folder Mnemonic(Symmetric Encryption) on the Owner's device , and then stored them on the server as mapping records. 
+
+> When the Owner adds a new Member, the Share Folder Mnemonic will be encrypted by the Member's multiple public keys parsed from the Member Auth provided by the Member, and the ciphertext of Share Folder Mnemonic will be stored on the server,  establishing a mapping relationship between Member and ciphertext of Share Folder Mnemonic. 
+
+> In this way, when the Member accesses the Share Folder, they can retrieve the mapping relationship from the server, thus obtaining ciphertext of the Share Folder Mnemonic. The Member can decrypt the ciphertext of the Shared Folder Mnemonic using their private keys on their devices. This allows the Member to easily access the plaintext of the Shared Folder Mnemonic on their devices, thus enabling them to decrypt the ciphertext of shared records on their devices effortlessly. The Owner also can revoke Member's access at any time.
 
 ![](image/Web3Password-Secure-Share-20231130.jpg)
 
 ## Transparent Protocol Principle of Web3Password
 
-> Web3Password has fully considered your concerns about backdoors and other concerns, and hopes to resolve your concerns about backdoors through our efforts. Based on this consideration, relying on Web3Password's advanced account system and powerful data encryption system, a transparent protocol is designed to meet security requirements, protect your privacy, and facilitates third-party auditing.
+> Web3Password has fully considered your concerns regarding backdoors and privacy, and hopes to resolve your concerns about backdoors through our efforts. In alignment with this commitment, relying on Web3Password's advanced account system and powerful data encryption system, a transparent protocol is designed to meet security requirements, protect your privacy, and facilitates third-party auditing.
 
-> Web3Password has completely abandoned cookie and token, and instead used the ECDSA signature of Bitcoin to ensure the integrity and security of communication. This ensures that using Web3Password, even if you completely use HTTP communication, a third party cannot tamper with the your communication content at all. At the same time, relying on Web3Password's leading security confidence, even if a third party captures your communication content, it will not pose any security threat to your data. Based on this, Web3Password achieves the perfect integration of communication security and transparency. And relying on this, any third party can audit the communication content of Web3Password anytime and anywhere to ensure that Web3Password does not have any built-in backdoors.
+> Web3Password has completely abandoned cookies and tokens, and uses the ECDSA signature of Bitcoin to ensure the integrity and security of communication. This ensures that using Web3Password, even if you completely use HTTP communication, a third party cannot tamper with your communication content at all. 
+
+> Based on these leading advancements, Web3Password achieves a seamless integration of communication security and transparency. Its reliability allows any third party to audit the communication content of Web3Password at anytime and from anywhere, ensuring that Web3Password does not have any built-in backdoors.
 
 
-> About Web3Password Transparent Protocol
-> https://github.com/web3password/web3password-protocol
-
-> Audit Transmission
+> Audit Web3Password Communication
 > https://github.com/web3password
 
 
@@ -80,5 +92,5 @@
 
 
 ## Thanks
-> We thank Bitcoin community, like Marek Palatinus, Pavol Rusnak, Aaron Voisine, Sean Bowe, these great algorithm engineers, security engineers and cryptography engineers for bringing us such a powerful technology as Mnemonic Phrase. Based on Mnemonic Phrase, we have the opportunity to bring the security of products like Web3Password to the top of human society. Hats off to them!
+> We thank Bitcoin community, like Marek Palatinus, Pavol Rusnak, Aaron Voisine, Sean Bowe, these great algorithm engineers, security engineers and cryptography engineers for bringing us such a powerful technology as Mnemonic Phrase. Based on Mnemonic Phrase, we have the opportunity to bring the security of products like Web3Password to the top of human. Hats off to them!
 
