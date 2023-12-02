@@ -11,8 +11,8 @@ dataBinary - bytes by bson
 
 ## Example
 ```
-/web3password/addCredential
-https://github.com/web3password/web3password-protocol/blob/main/Web3Password-Tools/web3password-api-encode-decode-bson-demo.js
+
+bash audit.sh '/usr/local/var/map/go/src/w3p/web3password-protocol/test/log' 'science hundred humor hat jelly kangaroo receive drum buzz elite gym witness tuna shrug enlist'
 
 
 ```
