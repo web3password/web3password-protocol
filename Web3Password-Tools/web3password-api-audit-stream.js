@@ -47,17 +47,14 @@ if (data.includes("logdir")) {
 
   // Creating a Tail instance and listening for file change events
   const tail = new Tail(LogDir);  
-  tail.on('line', (content) => {  
-    // Output the latest log lines
-    content = content.toString();
-  
-    console.log("----------------------------- audit_log start -----------------------------");
-    console.log(content)
-    console.log("----------------------------- audit_log end -----------------------------");
-    
+  tail.on('line', (content) => {
+    content = content.toString();  
     var jsonData = JSON.parse(content);  
-    decodeFuc(jsonData.audit_log)
-  
+    if(jsonData.level==='INFO' && 
+      (jsonData.msg.includes('addCredential') || jsonData.msg.includes('batchAddCredential') || 
+      jsonData.msg.includes('deleteCredential') || jsonData.msg.includes('batchDeleteCredential'))){
+      decodeFuc(jsonData.audit_log)
+    }
   });
 
 } else { 
@@ -73,12 +70,9 @@ const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
 const decodeFuc = async (audit_log) => {
   try {
     let address0 = await wallet0.getAddress();
-        const publicKey0 = wallet0.publicKey;
-        const privateKey0 = wallet0.privateKey;
-        console.log("address0: ", address0);
-        console.log("publicKey0: ", publicKey0);
-        console.log("privateKey0: ", privateKey0);
-
+        // const publicKey0 = wallet0.publicKey;
+        // const privateKey0 = wallet0.privateKey;
+        // var audit_log = d.audit_log;
         console.log(`----------------------------- web3password api decode start-----------------------------------`);
         const w3pAddCredentialRequestBase64Str = audit_log
         const w3pAddCredentialRequestBytes = Buffer.from(w3pAddCredentialRequestBase64Str, "base64");
