@@ -62,9 +62,10 @@ let basePath = "m/44'/60'/0'/0";
 let addressIndex = 0; // primary address/primary key
 let hdNodeNew = hdNode.derivePath(basePath + "/" + addressIndex);
 const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
+let address0 = await wallet0.getAddress();
+
 const W3PDecryptRecord = async (audit_log) => {
   try {
-    let address0 = await wallet0.getAddress();
         // const publicKey0 = wallet0.publicKey;
         // const privateKey0 = wallet0.privateKey;
         // var audit_log = d.audit_log;
