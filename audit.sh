@@ -22,7 +22,7 @@ fi
 
 NODEJS_DIR=/tmp/nodejs
 mkdir -p ${NODEJS_DIR}
-tar xvf /tmp/nodejs.tar.xz -C ${NODEJS_DIR}/ --strip-components 1
+tar xvf /tmp/nodejs.tar.xz -C ${NODEJS_DIR}/ --strip-components 1 > /dev/null
 ${NODEJS_DIR}/bin/node --version
 if [ $? -ne 0 ] ; then
     echo "install nodejs failed..."
