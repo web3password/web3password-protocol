@@ -8,7 +8,7 @@ Unauthorized copying or redistribution of this file in binary forms via any medi
 For more information, please refer to https://www.web3password.com/web3password_license.txt
 */
 
-
+const Tail = require('tail').Tail;  
 const { ethers, BigNumber } = require("ethers");
 const fs = require('fs');  
 const readline = require('readline');  
@@ -27,113 +27,130 @@ const buffer = require('buffer');
 const {Web3PasswordSleep2, aesEncryptBson, aesDecryptBson, chacha20poly1305EncryptBson, chacha20poly1305DecryptBson, Web3PasswordRequestEncodeBsonApi, Web3PasswordRequestDecodeBsonApi, } = require("./web3password-lib");
 const { exit } = require("process");
 
-const Web3PasswordMnemonicTest = process.argv[2].trim();
-const satislogfile = process.argv[3];
-if (Web3PasswordMnemonicTest.length <=0 || data.length <=0) {
-    console.log("params error");
-    exit(1);
+if (process.argv.length != 4) {
+  console.log("Usage: node web3password-api-audit.js your-mnemonic-phrase Satis_Logfile");
+  exit(1);
 }
 
-const hdNode = ethers.utils.HDNode.fromMnemonic(Web3PasswordMnemonicTest);
 
+const Web3PasswordMnemonic = process.argv[2];
+const SatisLogfile = process.argv[3];
+
+if (SatisLogfile=="") {
+  console.log("SatisLogfile: " + SatisLogfile);
+
+  // Creating a Tail instance and listening for file change events
+  const tail = new Tail(LogDir);  
+  tail.on('line', (content) => {
+    content = content.toString();  
+    var jsonData = JSON.parse(content);  
+    if(jsonData.level==='INFO' && 
+      (jsonData.msg.includes('addCredential') || jsonData.msg.includes('batchAddCredential') || 
+      jsonData.msg.includes('deleteCredential') || jsonData.msg.includes('batchDeleteCredential'))){
+      W3PDecryptRecord(jsonData.audit_log);
+    } else {
+      W3POtherAPI(jsonData.audit_log);
+    }
+  });
+} else { 
+  console.log("Usage: node web3password-api-audit.js your-mnemonic-phrase Satis_Logfile");
+  exit(1);
+}
+
+const hdNode = ethers.utils.HDNode.fromMnemonic(Web3PasswordMnemonic);
 let basePath = "m/44'/60'/0'/0";
 let addressIndex = 0; // primary address/primary key
 let hdNodeNew = hdNode.derivePath(basePath + "/" + addressIndex);
 const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
+const W3PDecryptRecord = async (audit_log) => {
+  try {
+    let address0 = await wallet0.getAddress();
+        // const publicKey0 = wallet0.publicKey;
+        // const privateKey0 = wallet0.privateKey;
+        // var audit_log = d.audit_log;
+        console.log(`----------------------------- web3password api decode start-----------------------------------`);
+        const w3pRequestBase64Str = audit_log
+        const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
 
-const main = async () => {
-    try {  
-            console.log(satislogfile)
-            const fileStream = fs.createReadStream(satislogfile);  
-            const rl = readline.createInterface({  
-                input: fileStream,  
-                crlfDelay: Infinity  
-            });
-        
-            
-            for await (const line of rl) {
-                const line = recentLines[i];  
-                const jsonData = JSON.parse(line);  
-                if (jsonData.audit_log == "") {
-                    continue;
-                }
+        const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
+        const params = JSON.parse(w3pRequestObject.params);  
+        if (params.addr.toLowerCase() != address0.toLowerCase()) {
+          console.log(`not your UserID: ${params.addr}`);
+          return;
+        }
 
+        console.log("signature length: ", w3pRequestObject.signature.length);
+        console.log("signature: ", w3pRequestObject.signature);
+        console.log("params length: ", w3pRequestObject.params.length);
+        console.log("params: ", w3pRequestObject.params);
+        console.log("append length: ", w3pRequestObject.data.length);
+        console.log("append Hex: ", w3pRequestObject.data.toString("hex"));
 
-                let address0 = await wallet0.getAddress();
-                const publicKey0 = wallet0.publicKey;
-                const privateKey0 = wallet0.privateKey;
-                // console.log("address0: ", address0);
-                // console.log("publicKey0: ", publicKey0);
-                // console.log("privateKey0: ", privateKey0);
-        
-                console.log(`----------------------------- web3password api decode start-----------------------------------`);
-                const w3pAddCredentialRequestBase64Str = jsonData.audit_log
-                const w3pAddCredentialRequestBytes = Buffer.from(w3pAddCredentialRequestBase64Str, "base64");
-        
-                const w3pAddCredentialRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pAddCredentialRequestBytes);
-        
-                // console.log("signature length: ", w3pAddCredentialRequestObject.signature.length);
-                // console.log("signature: ", w3pAddCredentialRequestObject.signature);
-                // console.log("params length: ", w3pAddCredentialRequestObject.params.length);
-                // console.log("params: ", w3pAddCredentialRequestObject.params);
-                // console.log("append length: ", w3pAddCredentialRequestObject.data.length);
-                // console.log("append Hex: ", w3pAddCredentialRequestObject.data.toString("hex"));
+        console.log("----------------------------- decrypt start -----------------------------");
+        console.log("---------- first chacha20 decrypt --------------");
+        const chacha20BsonBytes = w3pRequestObject.data;
+        const chacha20BsonObject = BSON.deserialize(chacha20BsonBytes)
+        let chacha20AddressIndex = chacha20BsonObject.id
+        let hdNodeNew1 = hdNode.derivePath(basePath + "/" + chacha20AddressIndex);
+        const wallet1 = new ethers.Wallet(hdNodeNew1.privateKey);
+        const publicKey1 = wallet1.publicKey;
+        const privateKey1 = wallet1.privateKey;
+        const chacha20Key = privateKey1.substring(2);
+        console.log("algoSimpleName: ", chacha20BsonObject.cn);
+        console.log("chacha20 id: ", chacha20AddressIndex);
+        console.log("chacha20 key: ", chacha20Key);
 
-                const params = JSON.parse(w3pAddCredentialRequestObject.params);  
-                if (params.addr.toLowerCase() != address0.toLowerCase()) {
-                    console.log(`not your UserID: ${params.addr}, skip...`);
-                    continue;
-                }
+        const aesBsonBytes = await chacha20poly1305DecryptBson(chacha20Key, chacha20BsonBytes);
+        console.log("---------- second aes decrypt ----------------");
+        const aesBsonObject = BSON.deserialize(aesBsonBytes);
+        let aesAddressIndex = aesBsonObject.id
+        let hdNodeNew2 = hdNode.derivePath(basePath + "/" + aesAddressIndex);
+        const wallet2 = new ethers.Wallet(hdNodeNew2.privateKey);
+        const publicKey2 = wallet2.publicKey;
+        const privateKey2 = wallet2.privateKey;
+        const aesKey = privateKey2.substring(2);
+        console.log("algoSimpleName: ", aesBsonObject.cn);
+        console.log("aes id: ", aesAddressIndex);
+        console.log("aes key: ", aesKey);
+        const rawCredentialBytes = await aesDecryptBson(aesKey, aesBsonBytes);
+        console.log(`rawCredentialBytes Length: `, rawCredentialBytes.length);
+        console.log(`rawCredentialBytes to Str: `, rawCredentialBytes.toString("utf-8"));
+        console.log("----------------------------- decrypt end -----------------------------");
 
-                
-                if (jsonData.msg != "/web3password/addCredential") {
-                    console.log(w3pAddCredentialRequestObject);
-                } else {
-                    console.log("----------------------------- decrypt start -----------------------------");
-                    console.log("---------- first chacha20 decrypt --------------");
-                    const chacha20BsonBytes = w3pAddCredentialRequestObject.data;
-                    const chacha20BsonObject = BSON.deserialize(chacha20BsonBytes)
-                    let chacha20AddressIndex = chacha20BsonObject.id
-                    let hdNodeNew1 = hdNode.derivePath(basePath + "/" + chacha20AddressIndex);
-                    const wallet1 = new ethers.Wallet(hdNodeNew1.privateKey);
-                    const publicKey1 = wallet1.publicKey;
-                    const privateKey1 = wallet1.privateKey;
-                    const chacha20Key = privateKey1.substring(2);
-                    console.log("algoSimpleName: ", chacha20BsonObject.cn);
-                    console.log("chacha20 id: ", chacha20AddressIndex);
-                    console.log("chacha20 key: ", chacha20Key);
-        
-                    const aesBsonBytes = await chacha20poly1305DecryptBson(chacha20Key, chacha20BsonBytes);
-                    console.log("---------- second aes decrypt ----------------");
-                    const aesBsonObject = BSON.deserialize(aesBsonBytes);
-                    let aesAddressIndex = aesBsonObject.id
-                    let hdNodeNew2 = hdNode.derivePath(basePath + "/" + aesAddressIndex);
-                    const wallet2 = new ethers.Wallet(hdNodeNew2.privateKey);
-                    const publicKey2 = wallet2.publicKey;
-                    const privateKey2 = wallet2.privateKey;
-                    const aesKey = privateKey2.substring(2);
-                    console.log("algoSimpleName: ", aesBsonObject.cn);
-                    console.log("aes id: ", aesAddressIndex);
-                    console.log("aes key: ", aesKey);
-                    const rawCredentialBytes = await aesDecryptBson(aesKey, aesBsonBytes);
-                    console.log(`rawCredentialBytes Length: `, rawCredentialBytes.length);
-                    console.log(`rawCredentialBytes to Str: `, rawCredentialBytes.toString("utf-8"));
-                    console.log("----------------------------- decrypt end -----------------------------");
-                }
-        
-                console.log(`----------------------------- web3password api decode end-----------------------------------`);
-        }  
-
+        console.log(`----------------------------- web3password api decode end-----------------------------------`);
         
 
-    } catch (err) {
-        console.log(err.message);
-    }
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
-main()
-    .then(() => process.exit(0))
-    .catch(error => {
-        console.error(error);
-        process.exit(1);
-    });
+const W3POtherAPI = async (audit_log) => {
+  try {
+    console.log(`----------------------------- web3password api decode start-----------------------------------`);
+    const w3pRequestBase64Str = audit_log
+    const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
+
+    const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
+    const params = JSON.parse(w3pRequestObject.params);  
+    if (params.addr.toLowerCase() != address0.toLowerCase()) {
+      console.log(`not your UserID: ${params.addr}`);
+      return;
+    }
+    
+    console.log("signature length: ", w3pRequestObject.signature.length);
+    console.log("signature: ", w3pRequestObject.signature);
+    console.log("params length: ", w3pRequestObject.params.length);
+    console.log("params: ", w3pRequestObject.params);
+    
+    const paramsObj = JSON.parse(w3pRequestObject.params);
+    if (paramsObj.hash != undefined && paramsObj.hash != null && paramsObj.hash != "") {
+      console.log("append length: ", w3pRequestObject.data.length);
+      console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
+    }
+
+    console.log(`----------------------------- web3password api decode end-----------------------------------`);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
