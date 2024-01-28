@@ -14,7 +14,8 @@ SCRIPT_DESC="Audit Web3Password API Communication"
 
 nodejs_url="https://nodejs.org/dist/v20.11.0/node-v20.11.0-linux-x64.tar.xz"
 
-wget -c $nodejs_url -O /tmp/nodejs.tar.xz
+echo "Downloading nodejs binary..."
+wget -c $nodejs_url -O /tmp/nodejs.tar.xz > /dev/null
 if [ $? -ne 0 ] ; then
     echo "install nodejs failed..."
     exit 1
@@ -22,6 +23,7 @@ fi
 
 NODEJS_DIR=/tmp/nodejs
 mkdir -p ${NODEJS_DIR}
+echo "Uncompress nodejs tar..."
 tar xvf /tmp/nodejs.tar.xz -C ${NODEJS_DIR}/ --strip-components 1 > /dev/null
 ${NODEJS_DIR}/bin/node --version
 if [ $? -ne 0 ] ; then
@@ -32,7 +34,8 @@ fi
 export PATH=$PATH:${NODEJS_DIR}/bin
 W3PTOOLS_DIR="${WORK_DIR}/Web3Password-Tools"
 
-cd ${W3PTOOLS_DIR} && npm install
+echo "npm install package..."
+cd ${W3PTOOLS_DIR} && npm install > /dev/null
 if [ $? -ne 0 ] ; then
     echo "install npm failed..."
     exit 3
@@ -51,6 +54,7 @@ main() {
         exit 5  
     fi  
 
+    echo "Get started to AUDIT Web3Password API..."
     node ${W3PTOOLS_DIR}/web3password-api-audit.js "$mnemonic" "$satis_logfile"
 
     exit 0
