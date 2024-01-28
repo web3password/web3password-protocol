@@ -147,7 +147,7 @@ const W3POtherAPI = async (jsonData) => {
     console.log("params: ", w3pRequestObject.params);
     
     const paramsObj = JSON.parse(w3pRequestObject.params);
-    if (paramsObj.hash != undefined && paramsObj.hash != null && paramsObj.hash != "") {
+    if (paramsObj.hash != undefined && paramsObj.hash != null && paramsObj.hash != "" && w3pRequestObject.data.length > 0) {
       console.log("append length: ", w3pRequestObject.data.length);
       console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
     }
