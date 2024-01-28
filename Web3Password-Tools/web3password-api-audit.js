@@ -83,12 +83,12 @@ const W3PDecryptRecord = async (jsonData) => {
       return;
     }
 
-    console.log("signature length: ", w3pRequestObject.signature.length);
+    // console.log("signature length: ", w3pRequestObject.signature.length);
     console.log("signature: ", w3pRequestObject.signature);
-    console.log("params length: ", w3pRequestObject.params.length);
+    // console.log("params length: ", w3pRequestObject.params.length);
     console.log("params: ", w3pRequestObject.params);
-    console.log("append length: ", w3pRequestObject.data.length);
-    console.log("append Hex: ", w3pRequestObject.data.toString("hex"));
+    // console.log("append length: ", w3pRequestObject.data.length);
+    // console.log("append Hex: ", w3pRequestObject.data.toString("hex"));
 
     console.log("----------------------------- decrypt start -----------------------------");
     console.log("---------- first chacha20 decrypt --------------");
@@ -100,9 +100,9 @@ const W3PDecryptRecord = async (jsonData) => {
     const publicKey1 = wallet1.publicKey;
     const privateKey1 = wallet1.privateKey;
     const chacha20Key = privateKey1.substring(2);
-    console.log("algoSimpleName: ", chacha20BsonObject.cn);
-    console.log("chacha20 id: ", chacha20AddressIndex);
-    console.log("chacha20 key: ", chacha20Key);
+    console.log("Chacha20Poly1305 algoSimpleName: ", chacha20BsonObject.cn);
+    console.log("Chacha20Poly1305 id: ", chacha20AddressIndex);
+    console.log("Chacha20Poly1305 key: ", chacha20Key);
 
     const aesBsonBytes = await chacha20poly1305DecryptBson(chacha20Key, chacha20BsonBytes);
     console.log("---------- second aes decrypt ----------------");
@@ -113,9 +113,9 @@ const W3PDecryptRecord = async (jsonData) => {
     const publicKey2 = wallet2.publicKey;
     const privateKey2 = wallet2.privateKey;
     const aesKey = privateKey2.substring(2);
-    console.log("algoSimpleName: ", aesBsonObject.cn);
-    console.log("aes id: ", aesAddressIndex);
-    console.log("aes key: ", aesKey);
+    console.log("AES-256-GCM algoSimpleName: ", aesBsonObject.cn);
+    console.log("AES-256-GCM id: ", aesAddressIndex);
+    console.log("AES-256-GCM key: ", aesKey);
     const rawCredentialBytes = await aesDecryptBson(aesKey, aesBsonBytes);
     console.log(`rawCredentialBytes Length: `, rawCredentialBytes.length);
     console.log(`rawCredentialBytes to Str: `, rawCredentialBytes.toString("utf-8"));
@@ -134,7 +134,7 @@ const W3POtherAPI = async (jsonData) => {
     const audit_log = jsonData.audit_log;
     let address0 = await wallet0.getAddress();
     console.log(`UserID: ${address0}, method: ${w3p_method}`);
-    console.log(jsonData);
+    // console.log(jsonData);
 
     const w3pRequestBase64Str = audit_log
     const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
@@ -146,9 +146,9 @@ const W3POtherAPI = async (jsonData) => {
       return;
     }
     
-    console.log("signature length: ", w3pRequestObject.signature.length);
+    // console.log("signature length: ", w3pRequestObject.signature.length);
     console.log("signature: ", w3pRequestObject.signature);
-    console.log("params length: ", w3pRequestObject.params.length);
+    // console.log("params length: ", w3pRequestObject.params.length);
     console.log("params: ", w3pRequestObject.params);
     
     const paramsObj = JSON.parse(w3pRequestObject.params);
