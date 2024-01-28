@@ -78,7 +78,12 @@
 
 
 ## BIP39/BIP44 科普
+> https://www.youtube.com/watch?v=It6igBdMY-I
+
+> https://www.youtube.com/watch?v=kGClNWZcYV8
+
 > https://youtu.be/S9JGmA5_unY
+
 
 > https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
