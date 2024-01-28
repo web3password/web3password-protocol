@@ -33,7 +33,7 @@ if (process.argv.length != 4) {
 }
 
 
-const Web3PasswordMnemonic = process.argv[2];
+const Web3PasswordMnemonic = process.argv[2].trim();
 const SatisLogfile = process.argv[3];
 
 if (SatisLogfile != "") {
@@ -70,7 +70,7 @@ const W3PDecryptRecord = async (jsonData) => {
     const w3p_method = jsonData.msg;
     console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
     const audit_log = jsonData.audit_log;
-    let address0 = await wallet0.getAddress();
+    let address0 = (await wallet0.getAddress()).toLowerCase();
     console.log(`UserID: ${address0}, method: ${w3p_method}`);
 
     const w3pRequestBase64Str = audit_log
@@ -78,7 +78,7 @@ const W3PDecryptRecord = async (jsonData) => {
 
     const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
     const params = JSON.parse(w3pRequestObject.params);  
-    if (params.addr.toLowerCase() != address0.toLowerCase()) {
+    if (params.addr.toLowerCase() != address0) {
       console.log(`not your UserID: ${params.addr}`);
       return;
     }
@@ -132,7 +132,7 @@ const W3POtherAPI = async (jsonData) => {
     const w3p_method = jsonData.msg;
     console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
     const audit_log = jsonData.audit_log;
-    let address0 = await wallet0.getAddress();
+    let address0 = (await wallet0.getAddress()).toLowerCase();
     console.log(`UserID: ${address0}, method: ${w3p_method}`);
     // console.log(jsonData);
 
@@ -141,7 +141,7 @@ const W3POtherAPI = async (jsonData) => {
 
     const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
     const params = JSON.parse(w3pRequestObject.params);  
-    if (params.addr.toLowerCase() != address0.toLowerCase()) {
+    if (params.addr.toLowerCase() != address0) {
       console.log(`not your UserID: ${params.addr}`);
       return;
     }
