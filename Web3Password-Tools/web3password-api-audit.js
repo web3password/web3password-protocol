@@ -130,6 +130,7 @@ const W3POtherAPI = async (jsonData) => {
     const audit_log = jsonData.audit_log;
     let address0 = await wallet0.getAddress();
     console.log(`UserID: ${address0}, method: ${jsonData.msg}`);
+    console.log(jsonData);
 
     const w3pRequestBase64Str = audit_log
     const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
