@@ -36,11 +36,11 @@ if (process.argv.length != 4) {
 const Web3PasswordMnemonic = process.argv[2];
 const SatisLogfile = process.argv[3];
 
-if (SatisLogfile=="") {
+if (SatisLogfile != "") {
   console.log("SatisLogfile: " + SatisLogfile);
 
   // Creating a Tail instance and listening for file change events
-  const tail = new Tail(LogDir);  
+  const tail = new Tail(SatisLogfile);  
   tail.on('line', (content) => {
     content = content.toString();  
     var jsonData = JSON.parse(content);  
