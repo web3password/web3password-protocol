@@ -67,10 +67,11 @@ const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
 
 const W3PDecryptRecord = async (jsonData) => {
   try {
-    console.log(`----------------------------- web3password api decode start-----------------------------------`);
+    const w3p_method = jsonData.msg;
+    console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
     const audit_log = jsonData.audit_log;
     let address0 = await wallet0.getAddress();
-    console.log(`UserID: ${address0}, method: ${jsonData.msg}`);
+    console.log(`UserID: ${address0}, method: ${w3p_method}`);
 
     const w3pRequestBase64Str = audit_log
     const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
@@ -120,7 +121,7 @@ const W3PDecryptRecord = async (jsonData) => {
     console.log(`rawCredentialBytes to Str: `, rawCredentialBytes.toString("utf-8"));
     console.log("----------------------------- decrypt end -----------------------------");
 
-    console.log(`----------------------------- web3password api decode end-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode end-----------------------------------`);
   } catch (err) {
     console.log(err.message);
   }
@@ -128,10 +129,11 @@ const W3PDecryptRecord = async (jsonData) => {
 
 const W3POtherAPI = async (jsonData) => {
   try {
-    console.log(`----------------------------- web3password api decode start-----------------------------------`);
+    const w3p_method = jsonData.msg;
+    console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
     const audit_log = jsonData.audit_log;
     let address0 = await wallet0.getAddress();
-    console.log(`UserID: ${address0}, method: ${jsonData.msg}`);
+    console.log(`UserID: ${address0}, method: ${w3p_method}`);
     console.log(jsonData);
 
     const w3pRequestBase64Str = audit_log
@@ -155,7 +157,7 @@ const W3POtherAPI = async (jsonData) => {
       console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
     }
 
-    console.log(`----------------------------- web3password api decode end-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode end-----------------------------------`);
   } catch (err) {
     console.log(err.message);
   }
