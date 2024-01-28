@@ -43,8 +43,10 @@ if (SatisLogfile != "") {
   const tail = new Tail(SatisLogfile);  
   tail.on('line', (content) => {
     content = content.toString();  
-    var jsonData = JSON.parse(content);  
-    if(jsonData.level==='INFO' && 
+    var jsonData = JSON.parse(content); 
+    if (jsonData.msg.includes("getLatestBlockTimestamp")) {
+      ;
+    } else if(jsonData.level==='INFO' && 
       (jsonData.msg.includes('addCredential') || jsonData.msg.includes('batchAddCredential') || 
       jsonData.msg.includes('deleteCredential') || jsonData.msg.includes('batchDeleteCredential'))){
       W3PDecryptRecord(jsonData);
