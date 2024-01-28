@@ -62,10 +62,10 @@ let basePath = "m/44'/60'/0'/0";
 let addressIndex = 0; // primary address/primary key
 let hdNodeNew = hdNode.derivePath(basePath + "/" + addressIndex);
 const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
-let address0 = await wallet0.getAddress();
 
 const W3PDecryptRecord = async (audit_log) => {
   try {
+        let address0 = await wallet0.getAddress();
         // const publicKey0 = wallet0.publicKey;
         // const privateKey0 = wallet0.privateKey;
         // var audit_log = d.audit_log;
@@ -119,8 +119,6 @@ const W3PDecryptRecord = async (audit_log) => {
         console.log("----------------------------- decrypt end -----------------------------");
 
         console.log(`----------------------------- web3password api decode end-----------------------------------`);
-        
-
   } catch (err) {
     console.log(err.message);
   }
@@ -128,29 +126,30 @@ const W3PDecryptRecord = async (audit_log) => {
 
 const W3POtherAPI = async (audit_log) => {
   try {
-    console.log(`----------------------------- web3password api decode start-----------------------------------`);
-    const w3pRequestBase64Str = audit_log
-    const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
+        let address0 = await wallet0.getAddress();
+        console.log(`----------------------------- web3password api decode start-----------------------------------`);
+        const w3pRequestBase64Str = audit_log
+        const w3pRequestBytes = Buffer.from(w3pRequestBase64Str, "base64");
 
-    const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
-    const params = JSON.parse(w3pRequestObject.params);  
-    if (params.addr.toLowerCase() != address0.toLowerCase()) {
-      console.log(`not your UserID: ${params.addr}`);
-      return;
-    }
-    
-    console.log("signature length: ", w3pRequestObject.signature.length);
-    console.log("signature: ", w3pRequestObject.signature);
-    console.log("params length: ", w3pRequestObject.params.length);
-    console.log("params: ", w3pRequestObject.params);
-    
-    const paramsObj = JSON.parse(w3pRequestObject.params);
-    if (paramsObj.hash != undefined && paramsObj.hash != null && paramsObj.hash != "") {
-      console.log("append length: ", w3pRequestObject.data.length);
-      console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
-    }
+        const w3pRequestObject = await Web3PasswordRequestDecodeBsonApi(w3pRequestBytes);
+        const params = JSON.parse(w3pRequestObject.params);  
+        if (params.addr.toLowerCase() != address0.toLowerCase()) {
+          console.log(`not your UserID: ${params.addr}`);
+          return;
+        }
+        
+        console.log("signature length: ", w3pRequestObject.signature.length);
+        console.log("signature: ", w3pRequestObject.signature);
+        console.log("params length: ", w3pRequestObject.params.length);
+        console.log("params: ", w3pRequestObject.params);
+        
+        const paramsObj = JSON.parse(w3pRequestObject.params);
+        if (paramsObj.hash != undefined && paramsObj.hash != null && paramsObj.hash != "") {
+          console.log("append length: ", w3pRequestObject.data.length);
+          console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
+        }
 
-    console.log(`----------------------------- web3password api decode end-----------------------------------`);
+        console.log(`----------------------------- web3password api decode end-----------------------------------`);
   } catch (err) {
     console.log(err.message);
   }
