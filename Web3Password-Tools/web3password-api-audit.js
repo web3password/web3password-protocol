@@ -117,8 +117,8 @@ const W3PDecryptRecord = async (jsonData) => {
     console.log("AES-256-GCM id: ", aesAddressIndex);
     console.log("AES-256-GCM key: ", aesKey);
     const rawCredentialBytes = await aesDecryptBson(aesKey, aesBsonBytes);
-    console.log(`rawCredentialBytes Length: `, rawCredentialBytes.length);
-    console.log(`rawCredentialBytes to Str: `, rawCredentialBytes.toString("utf-8"));
+    console.log(`rawCredentialStr Length: `, rawCredentialBytes.length);
+    console.log(`rawCredentialStr: `, rawCredentialBytes.toString("utf-8"));
     console.log("----------------------------- decrypt end -----------------------------");
 
     console.log(`----------------------------- web3password api ${w3p_method} decode end-----------------------------------`);
