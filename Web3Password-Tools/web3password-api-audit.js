@@ -68,7 +68,7 @@ const wallet0 = new ethers.Wallet(hdNodeNew.privateKey);
 const W3PDecryptRecord = async (jsonData) => {
   try {
     const w3p_method = jsonData.msg;
-    console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode start -----------------------------------`);
     const audit_log = jsonData.audit_log;
     let address0 = (await wallet0.getAddress()).toLowerCase();
     console.log(`UserID: ${address0}, method: ${w3p_method}`);
@@ -121,7 +121,7 @@ const W3PDecryptRecord = async (jsonData) => {
     console.log(`rawCredentialStr: `, rawCredentialBytes.toString("utf-8"));
     console.log("----------------------------- decrypt end -----------------------------");
 
-    console.log(`----------------------------- web3password api ${w3p_method} decode end-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode end -----------------------------------`);
   } catch (err) {
     console.log(err.message);
   }
@@ -130,7 +130,7 @@ const W3PDecryptRecord = async (jsonData) => {
 const W3POtherAPI = async (jsonData) => {
   try {
     const w3p_method = jsonData.msg;
-    console.log(`----------------------------- web3password api ${w3p_method} decode start-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode start -----------------------------------`);
     const audit_log = jsonData.audit_log;
     let address0 = (await wallet0.getAddress()).toLowerCase();
     console.log(`UserID: ${address0}, method: ${w3p_method}`);
@@ -157,7 +157,7 @@ const W3POtherAPI = async (jsonData) => {
       console.log("append data: ", BSON.deserialize(w3pRequestObject.data));
     }
 
-    console.log(`----------------------------- web3password api ${w3p_method} decode end-----------------------------------`);
+    console.log(`----------------------------- web3password api ${w3p_method} decode end -----------------------------------`);
   } catch (err) {
     console.log(err.message);
   }
