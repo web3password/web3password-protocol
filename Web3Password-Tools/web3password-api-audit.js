@@ -91,7 +91,7 @@ const W3PDecryptRecord = async (jsonData) => {
     // console.log("append Hex: ", w3pRequestObject.data.toString("hex"));
 
     console.log("----------------------------- decrypt start -----------------------------");
-    console.log("---------- first chacha20 decrypt --------------");
+    console.log("---------- first Chacha20-Poly1305 decrypt --------------");
     const chacha20BsonBytes = w3pRequestObject.data;
     const chacha20BsonObject = BSON.deserialize(chacha20BsonBytes)
     let chacha20AddressIndex = chacha20BsonObject.id
@@ -105,7 +105,7 @@ const W3PDecryptRecord = async (jsonData) => {
     console.log("Chacha20Poly1305 key: ", chacha20Key);
 
     const aesBsonBytes = await chacha20poly1305DecryptBson(chacha20Key, chacha20BsonBytes);
-    console.log("---------- second aes decrypt ----------------");
+    console.log("---------- second AES-256-GCM decrypt ----------------");
     const aesBsonObject = BSON.deserialize(aesBsonBytes);
     let aesAddressIndex = aesBsonObject.id
     let hdNodeNew2 = hdNode.derivePath(basePath + "/" + aesAddressIndex);
